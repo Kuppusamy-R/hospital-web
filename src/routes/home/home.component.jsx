@@ -1,15 +1,16 @@
 
 import { useContext } from "react";
-import { Container, Stack, Row, Col, Table, Button } from "react-bootstrap";
+import { Container, Stack, Row, Col, Table, Button, Placeholder } from "react-bootstrap";
 import SimpleModal from "../../components/modal/simple-modal.component";
 import PatientItem from "../../components/patient-item/patient-item.component";
-import { PatientContext } from "../../contexts/patient.context";
+import { AppContext } from "../../contexts/app.context";
 import { Link } from "react-router-dom";
+import "./home.style.scss";
+
 
 const Home = () => {
 
-  const { isDeletePatientModalShow, closeDeleteModal, deletePatientItem, patientList } = useContext(PatientContext);
-
+  const { isDeletePatientModalShow, closeDeleteModal, deletePatientItem, patientList } = useContext(AppContext);
   const handleClose = () => closeDeleteModal();
 
   // const showdeleteModal = (event) => {
@@ -48,29 +49,55 @@ const Home = () => {
           </Col>
         </Row>
         <Row>
-            <Col>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
+          <Col>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
 
-                    <th>Name</th>
-                    <th>Gender</th>
-                    <th>DOB</th>
-                    <th>Phone Number</th>
-                    <th>Full Address</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
+                  <th>Name</th>
+                  <th>Gender</th>
+                  <th>DOB</th>
+                  <th>Phone Number</th>
+                  <th>Full Address</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  patientList.length === 0 ?
+                    (
+                      <>
+                        <tr>
+                          <td colSpan={6}>
+                            <Placeholder as="p" animation="glow">
+                              <Placeholder className="place-holder-custom" />
+                            </Placeholder>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan={6}>
+                            <Placeholder as="p" animation="glow">
+                              <Placeholder className="place-holder-custom" />
+                            </Placeholder>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan={6}>
+                            <Placeholder as="p" animation="glow">
+                              <Placeholder className="place-holder-custom" />
+                            </Placeholder>
+                          </td>
+                        </tr>
+                      </>)
+                    :
                     patientList.map((patient) => {
                       return (<PatientItem key={patient.id} patient={patient} />);
                     })
-                  }
-                </tbody>
-              </Table>
-            </Col>
-            <SimpleModal modalConfig={modalConfig} />
+                }
+              </tbody>
+            </Table>
+          </Col>
+          <SimpleModal modalConfig={modalConfig} />
         </Row>
       </Stack>
     </Container>

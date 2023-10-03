@@ -1,10 +1,10 @@
 import { Button } from "react-bootstrap";
 import { useContext } from "react";
-import { PatientContext } from "../../contexts/patient.context";
+import { AppContext } from "../../contexts/app.context";
 
 const PatientItem = ({ patient }) => {
 
-  const {addTobeDeletedPatientItem} = useContext(PatientContext);
+  const {addTobeDeletedPatientItem} = useContext(AppContext);
 
   const deletePatientItemHandler = () => addTobeDeletedPatientItem(patient);
 

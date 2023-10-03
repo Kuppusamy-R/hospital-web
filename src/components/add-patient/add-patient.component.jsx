@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Container, FloatingLabel, Form, Row, Col, Button, Stack, InputGroup, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { PatientContext } from "../../contexts/patient.context";
+import { AppContext } from "../../contexts/app.context";
 
 const defaultPatientFormFields = {
     name: '',
@@ -15,7 +15,7 @@ const AddPatient = () => {
     
     const [patientFormFields, setPatientFormFields] = useState(defaultPatientFormFields);
 
-    const {addPatientItem} = useContext(PatientContext);
+    const {addPatientItem} = useContext(AppContext);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
