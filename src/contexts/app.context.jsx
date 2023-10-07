@@ -19,6 +19,7 @@ export const AppContext = createContext({
 export const AppContextProvider = ({ children }) => {
 
     const [isDeletePatientModalShow, setDeleteModalToggle] = useState(false);
+    const [ispatientListUpdated, setPatientListUpdated] = useState(false);
     const [toBeDeletedPatientItem, setTobeDeletedPatientItem] = useState(null);
     const [patientList, setPatientList] = useState([]);
     const [toastConfig, toggleToast] = useState(defaultToastConfig);
@@ -31,21 +32,19 @@ export const AppContextProvider = ({ children }) => {
 
                 return response.json();
             })
-            .then((patienList) => {
-                console.log(patienList);
-                setPatientList(patienList);
+            .then((patientList) => {
+                setPatientList(patientList);
             })
             .catch((error) => {
                 toggleToast({ ...defaultToastConfig, show: true, variant: "Danger", header: "Alert", body: "Someting went wrong!"});
             });
-    }, [isDeletePatientModalShow]);
+    }, [isDeletePatientModalShow, ispatientListUpdated]);
 
     const setToast = (toastConfig) => {
         toggleToast(toastConfig);
     };
 
     const addTobeDeletedPatientItem = (patient) => {
-        console.log('hi');
         setTobeDeletedPatientItem(patient);
         setDeleteModalToggle(true);
     };
@@ -58,9 +57,12 @@ export const AppContextProvider = ({ children }) => {
         if (toBeDeletedPatientItem) {
             fetch(`${process.env.REACT_APP_API_BASE_URL}patients/${toBeDeletedPatientItem.id}`, { method: "DELETE" })
                 .then((response) => {
-                    console.log(response);
                     setDeleteModalToggle(false);
                 })
+                .catch((error) => {
+                    toggleToast({ ...defaultToastConfig, show: true, variant: "Danger", header: "Alert", body: "Someting went wrong!"});
+                });
+
             patientList.filter((patient) => { return patient.id !== toBeDeletedPatientItem.id; });
         } else {
             window.alert("You have already deleted the patient details!");
@@ -77,11 +79,16 @@ export const AppContextProvider = ({ children }) => {
                 body: JSON.stringify(patientFormFields)
             }).then(function (response) {
                 if (response.status === 200) {
+                    setPatientListUpdated(true);
                     navigate('/');
                 } else {
 
                 }
-            }).catch((error) => { console.log(error); });
+            })
+            .catch((error) => {
+                toggleToast({ ...defaultToastConfig, show: true, variant: "Danger", header: "Alert", body: "Someting went wrong!"});
+            });
+            
         } catch (error) {
             console.log(error);
         }

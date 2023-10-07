@@ -11,7 +11,7 @@ const PatientItem = ({ patient }) => {
   const { id, name, gender, dob, phoneNumber, fullAddress } = patient;
   return (
     <tr key={id}>
-      <td>{ `${name} ${id}` }</td>
+      <td>{name}</td>
       <td>{gender}</td>
       <td>{dob}</td>
       <td>{phoneNumber}</td>

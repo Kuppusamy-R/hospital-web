@@ -10,19 +10,20 @@ import "./home.style.scss";
 
 const Home = () => {
 
-  const { isDeletePatientModalShow, closeDeleteModal, deletePatientItem, patientList } = useContext(AppContext);
+  const { isDeletePatientModalShow, closeDeleteModal, deletePatientItem, patientList, toBeDeletedPatientItem } = useContext(AppContext);
   const handleClose = () => closeDeleteModal();
 
-  // const showdeleteModal = (event) => {
-  //   event.preventDefault();
-  //   setShowModal({ isShow: true, id: event.target.id.value });
-  // };
+  var tobeDeletedItemName = '';
+
+  if(toBeDeletedPatientItem !== null){
+    tobeDeletedItemName = toBeDeletedPatientItem.name;
+  }
 
   const modalConfig = {
     showModal: isDeletePatientModalShow,
     handleClose: handleClose,
     title: "Delete Patient Profile",
-    bodyName: "Are you sure want this patient profile?",
+    bodyName: `Are you sure want to delete ${tobeDeletedItemName}'s profile?`,
     footerConfig: [
       {
         id: 1,
